@@ -1,0 +1,13 @@
+C++ Advanced
+
+- Setup
+
+https://en.cppreference.com/w/cpp/compiler_support/17
+apt install libtbb-dec
+
+- Reduce
+g++ -std=c++17 src/stl-parallel/reduce.cpp -o build/reduce.out -ltbb
+time ./build/reduce.out
+
+- PI
+g++ -std=c++17 src/stl-parallel/pi.cpp -o build/pi.out -ltbb
