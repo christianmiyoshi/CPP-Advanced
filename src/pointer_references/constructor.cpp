@@ -92,21 +92,25 @@ void swap_school(School& s1, School& s2) noexcept {
     s1.swap(s2);
 }
 
-inline void printValue(string&& message) {
+void printValue(string&& message) {
     cout << "Rvalue: " <<  message << endl;
 }
 
-inline void printValue(string& message) {
+void printValue(const string& message) {
     cout << "LValue: " <<  message << endl;
 }
 
 int main() {
-    Employee empA;
-    Employee empB;
-    Employee empC {empB}; // copy constructor
-    Employee empD = empC; // Copy Constructor
 
-    empA = empB; // Assignment operator since empA is already constructed
+    // int number {10 * 50};
+    // int result = number + 10;
+
+    // // Employee empA;
+    // // Employee empB;
+    // // Employee empC {empB}; // copy constructor
+    // // Employee empD = empC; // Copy Constructor
+
+    // // empA = empB; // Assignment operator since empA is already constructed
 
     printValue("Hello"); // RValue
     string hello = "Hello";

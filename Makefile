@@ -39,6 +39,41 @@ constructor: src/pointer_references/constructor.cpp
 	$(CXX) $(CXXFLAGS) $^ -o $(BUILD_DIR)/constructor.out $(LDFLAGS)
 	./$(BUILD_DIR)/constructor.out
 
+constructor-example: src/pointer_references/constructor-example.cpp
+	@mkdir -p $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) $^ -o $(BUILD_DIR)/constructor-example.out $(LDFLAGS)
+	./$(BUILD_DIR)/constructor-example.out
+
+atomic: src/multithread/atomic.cpp
+	@mkdir -p $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) $^ -o $(BUILD_DIR)/atomic.out $(LDFLAGS)
+	./$(BUILD_DIR)/atomic.out
+	
+mutex: src/multithread/mutex.cpp
+	@mkdir -p $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) $^ -o $(BUILD_DIR)/mutex.out $(LDFLAGS)
+	./$(BUILD_DIR)/mutex.out
+	
+latch-barrier-semaphore: src/multithread/latch-barrier-semaphore.cpp
+	@mkdir -p $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) $^ -o $(BUILD_DIR)/latch-barrier-semaphore.out $(LDFLAGS)
+	./$(BUILD_DIR)/latch-barrier-semaphore.out
+
+future: src/multithread/future.cpp
+	@mkdir -p $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) $^ -o $(BUILD_DIR)/future.out $(LDFLAGS)
+	./$(BUILD_DIR)/future.out
+
+thread-pools: src/multithread/thread-pools.cpp
+	@mkdir -p $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) $^ -o $(BUILD_DIR)/thread-pools.out $(LDFLAGS)
+	./$(BUILD_DIR)/thread-pools.out
+
+condition: src/multithread/condition.cpp
+	@mkdir -p $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) $^ -o $(BUILD_DIR)/condition.out $(LDFLAGS)
+	./$(BUILD_DIR)/condition.out
+	
 $(BUILD_DIR)/vector.out: src/data-structure/vector.cpp
 	@mkdir -p $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)

@@ -51,6 +51,17 @@
         "cinttypes": "cpp",
         "typeinfo": "cpp",
         "execution": "cpp",
-        "compare": "cpp"
+        "compare": "cpp",
+        "concepts": "cpp",
+        "condition_variable": "cpp",
+        "mutex": "cpp",
+        "numbers": "cpp",
+        "semaphore": "cpp",
+        "shared_mutex": "cpp",
+        "stop_token": "cpp",
+        "cfenv": "cpp",
+        "latch": "cpp",
+        "barrier": "cpp",
+        "future": "cpp"
     }
 }
