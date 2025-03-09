@@ -62,6 +62,7 @@
         "cfenv": "cpp",
         "latch": "cpp",
         "barrier": "cpp",
-        "future": "cpp"
+        "future": "cpp",
+        "ranges": "cpp"
     }
 }

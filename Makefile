@@ -74,6 +74,11 @@ boost-compute: src/multithread/boost-compute.cpp
 	$(CXX) $(CXXFLAGS) $^ -I/usr/local/include/compute -o $(BUILD_DIR)/boost-compute.out $(LDFLAGS) -lOpenCL
 	./$(BUILD_DIR)/boost-compute.out
 
+views: src/ranges/views.cpp
+	@mkdir -p $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) $^ -o $(BUILD_DIR)/views.out $(LDFLAGS)
+	./$(BUILD_DIR)/views.out
+
 condition: src/multithread/condition.cpp
 	@mkdir -p $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) $^ -o $(BUILD_DIR)/condition.out $(LDFLAGS)
