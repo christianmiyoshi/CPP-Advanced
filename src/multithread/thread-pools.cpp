@@ -2,6 +2,7 @@
 #include <tbb/task_group.h>
 #include <tbb/global_control.h>
 #include <chrono>
+#include <tbb/parallel_for.h>
 
 using namespace std;
 
@@ -24,8 +25,16 @@ void threadPoolsTBBExample(){
     cout << "All tasks completed!\n";
 }
 
+void tbbParallelFor(){
+    cout << "tbbParallelFor\n";
+    tbb::parallel_for(0, 10, [](int i) {
+        std::cout << "Processando " << i << " na thread " << std::this_thread::get_id() << "\n";
+    });
+}
+
 int main()
 {
     threadPoolsTBBExample();
+    tbbParallelFor();
     return 0;
 }
