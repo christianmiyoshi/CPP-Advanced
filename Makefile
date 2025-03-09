@@ -69,6 +69,11 @@ thread-pools: src/multithread/thread-pools.cpp
 	$(CXX) $(CXXFLAGS) $^ -o $(BUILD_DIR)/thread-pools.out $(LDFLAGS)
 	./$(BUILD_DIR)/thread-pools.out
 
+boost-compute: src/multithread/boost-compute.cpp
+	@mkdir -p $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) $^ -I/usr/local/include/compute -o $(BUILD_DIR)/boost-compute.out $(LDFLAGS) -lOpenCL
+	./$(BUILD_DIR)/boost-compute.out
+
 condition: src/multithread/condition.cpp
 	@mkdir -p $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) $^ -o $(BUILD_DIR)/condition.out $(LDFLAGS)
