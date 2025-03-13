@@ -63,6 +63,7 @@
         "latch": "cpp",
         "barrier": "cpp",
         "future": "cpp",
-        "ranges": "cpp"
+        "ranges": "cpp",
+        "queue": "cpp"
     }
 }

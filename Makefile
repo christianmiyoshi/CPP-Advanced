@@ -41,8 +41,10 @@ constructor: src/pointer_references/constructor.cpp
 
 constructor-example: src/pointer_references/constructor-example.cpp
 	@mkdir -p $(BUILD_DIR)
-	$(CXX) $(CXXFLAGS) $^ -o $(BUILD_DIR)/constructor-example.out $(LDFLAGS)
+	$(CXX) -std=c++14 -fno-elide-constructors $^ -o $(BUILD_DIR)/constructor-example.out $(LDFLAGS)
 	./$(BUILD_DIR)/constructor-example.out
+	# $(CXX) -std=c++14 $^ -o $(BUILD_DIR)/constructor-example.out $(LDFLAGS)
+	# ./$(BUILD_DIR)/constructor-example.out
 
 atomic: src/multithread/atomic.cpp
 	@mkdir -p $(BUILD_DIR)

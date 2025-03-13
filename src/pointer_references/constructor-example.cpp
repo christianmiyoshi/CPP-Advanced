@@ -2,6 +2,7 @@
 #include <iostream>
 #include <memory>
 #include <utility>
+#include <vector>
 
 using namespace std;
 
@@ -20,14 +21,15 @@ class MatrixCell {
 
 class Matrix {
     public:
-        Matrix(int rows, int columns) : m_rows {rows}, m_columns {columns} {
+        Matrix(int rows, int columns, int value = 0) : m_rows {rows}, m_columns {columns} {
             cout << "Constructor Matrix " << m_rows << "x" << m_columns << endl;
             m_cells = new MatrixCell*[rows];
             for (int i=0; i<rows; i++) {
-                m_cells[i] = new MatrixCell[columns];
+                m_cells[i] = new MatrixCell[columns] {value};
             }
         }
-        Matrix(const Matrix& src) : Matrix {src.m_rows, src.m_columns} { // copy-constructor
+
+        Matrix(const Matrix& src) : Matrix {src.m_rows, src.m_columns} { // Copy-Constructor
             cout << "Copy-Constructor Matrix " << m_rows << "x" << m_columns << endl;
             for (int i = 0; i < m_rows; i++) {
                 for (int j = 0; j < m_columns; j++) {
@@ -36,13 +38,7 @@ class Matrix {
             }
         }
 
-        void swap(Matrix& rhs) noexcept {
-            std::swap(m_rows, rhs.m_rows);
-            std::swap(m_columns, rhs.m_columns);
-            std::swap(m_cells, rhs.m_cells);
-        }
-
-        Matrix& operator=(const Matrix& rhs) { // copy-assignment
+        Matrix& operator=(const Matrix& rhs) { // Copy-Assignment
             cout << "Copy-assignment Matrix " << rhs.m_rows << "x" << rhs.m_columns << endl;
             if (this == &rhs) return *this;
 
@@ -52,19 +48,63 @@ class Matrix {
             return *this;
         }
 
+        Matrix(Matrix&& src) noexcept { // Move-Constructor
+            cout << "Move-Constructor Matrix " << src.m_rows << "x" << src.m_columns << endl;
+            // moveFrom(src);
+            
+            // Other version
+            this->swap(src);                    
+        }
+
+        Matrix& operator=(Matrix&& rhs) { // move-assignment
+            cout << "Move-assignment Matrix " << rhs.m_rows << "x" << rhs.m_columns << endl;
+
+            // if (this == &rhs) return *this;
+            // cleanup();
+            // moveFrom(rhs);
+            // return *this;
+
+            // Other version
+            this->swap(rhs);
+            return *this;                        
+        }
+
         ~Matrix(){
             cout << "Destructor Matrix: ";
-            deallocateCells();
+            cleanup();
         }
-        void deallocateCells() {
+
+        void swap(Matrix& rhs) noexcept {
+            std::swap(m_rows, rhs.m_rows);
+            std::swap(m_columns, rhs.m_columns);
+            std::swap(m_cells, rhs.m_cells);
+            std::swap(m_name, rhs.m_name);
+        }
+
+        void cleanup() noexcept {
             cout << "Deallocate Matrix " << m_rows << "x" << m_columns << endl;
             for (int i = 0; i < m_rows; i++) {
                 delete[] m_cells[i];
                 m_cells[i] = nullptr;
             }
+            
             delete[] m_cells;
-            m_cells = nullptr;  
+            m_cells = nullptr;            
+            
+            m_rows = 0;
+            m_columns = 0;
         }
+
+        // void moveFrom(Matrix& src) noexcept {
+        //     // Primitives
+        //     m_rows = exchange(src.m_rows, 0);
+        //     m_columns = exchange(src.m_columns, 0);
+        //     m_cells = exchange(src.m_cells, nullptr);
+
+        //     // Object
+        //     m_name = move(src.m_name);
+        // }
+
         int getRows() const {
             return m_rows;
         }
@@ -77,13 +117,15 @@ class Matrix {
         void setValue(const int row, const int column, const int value) {
             m_cells[row][column].setValue(value);
         }
+
     private:
-        MatrixCell ** m_cells;
+        MatrixCell ** m_cells {nullptr};
+        string m_name {""};
         int m_rows {0};
         int m_columns {0};
 };
 
-void printMatrix(const Matrix matrix) {
+void printMatrix(Matrix matrix) {
     cout << "printMatrix" << endl;
     for (int i = 0; i < matrix.getRows(); i++) {
         for (int j = 0; j < matrix.getColumns(); j++) {
@@ -93,16 +135,36 @@ void printMatrix(const Matrix matrix) {
     }
 }
 
-int main() {
-    Matrix matrix {3, 4};
-    matrix.setValue(1, 1, 1);
-    printMatrix(matrix);    
+Matrix matrixRValue(){
+    Matrix matrix {1, 1};
+    return matrix;
+}
 
-    // Matrix matrixCopy {2, 2};
-    // matrixCopy.setValue(1, 1, 2);
-    // matrixCopy = matrix;
+class DataMatrix {
+    public:
+        DataMatrix(int row, int column) : m_matrix {Matrix{row, column}}{}
+        // void setData(Matrix matrix) {
+        //     m_matrix = move(matrix);
+        // }
+        void setData(Matrix&& matrix) {
+            m_matrix = move(matrix);
+        }
+        void setData(const Matrix& matrix) {
+            m_matrix = matrix;
+        }
+    private:
+        Matrix m_matrix;
+};
 
 
-    cout << "End program" << endl;
+int main() {  
+    DataMatrix data {1, 1};    
+    
+    cout << "LValue" << endl;
+    Matrix matrix3 {3, 3};    
+    data.setData(matrix3);
+
+    cout << "RValue" << endl;
+    data.setData(Matrix{2, 2});
     return 0;
 }
