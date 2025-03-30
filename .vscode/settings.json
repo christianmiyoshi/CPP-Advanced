@@ -64,6 +64,7 @@
         "barrier": "cpp",
         "future": "cpp",
         "ranges": "cpp",
-        "queue": "cpp"
+        "queue": "cpp",
+        "span": "cpp"
     }
 }

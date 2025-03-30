@@ -97,12 +97,74 @@ unique_ptr<Employee> createUnique() {
     return emp; // NRVO
 }
 
+#include <iostream>
+#include <memory>
+
+class Node {
+public:
+  explicit Node(int value) : m_value {value} {}
+  ~Node() {
+    std::cout << "Destroying Node " << m_value << std::endl;
+  }
+  void setNext(shared_ptr<Node> next) {
+    m_next = next;
+  }
+
+  auto getValue(){
+    return m_value;
+  }
+
+  auto getNextNode(){
+    return m_next.lock();
+  }
+private:
+  int m_value = 0;
+  std::weak_ptr<Node> m_next;
+};
+
+
+int nodeExample(){
+  std::cout << "Start" << endl;
+  auto node1 { std::make_shared<Node>(1) };
+  auto node2 { std::make_shared<Node>(2) };
+  auto node3 { std::make_shared<Node>(3) };
+  
+  node1->setNext(node2);
+  node2->setNext(node3);  
+
+  auto currentNode {node1};
+  while(currentNode) {
+    std::cout << "Node " << currentNode->getValue() << endl;
+    currentNode = currentNode->getNextNode();
+  }
+
+  {
+    auto node4 { std::make_shared<Node>(4) };
+    auto node5 { std::make_shared<Node>(5) };
+
+    node4->setNext(node5);
+    node5->setNext(node4);  
+  }
+    
+  std::cout << "End" << endl;
+  return 0;
+}
 int main() {
-    leaky();
-    notLeaky();
-    release();
-    shared_pointer();
-    weak_pointer();
+    // leaky();
+    // notLeaky();
+    // release();
+    // shared_pointer();
+    // weak_pointer();
+    // nodeExample();
+
+    std::cout << "Start" << endl;
+    auto node4 { std::make_shared<Node>(4) };
+    auto node5 { std::make_shared<Node>(5) };
+
+    node4->setNext(node5);
+    node5->setNext(node4);  
+    std::cout << "End" << endl;
+      
 
     return 0;
 }
